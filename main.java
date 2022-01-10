@@ -53,7 +53,7 @@ public class main {
     //Method to output the information about the game 
     public static void info()
     {
-        System.out.println("How the game works: As your character, you will enter the 1st round where you will encounter unique monsters.");
+        System.out.println("How the game works: As your character, you will enter the 1st round where you will encounter a group of monsters.");
         System.out.println("You will have the option to choose which attacks to use");
         System.out.println("Your attacks will do damage, same with the monster's");
         System.out.println("Once you have 0 health, you lose. Once the monster's have 0 health, they die.");
