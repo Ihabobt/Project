@@ -1,5 +1,5 @@
 import java.util.Random;
-public class character
+public class Character
 {
 
     private short shrCurrentHealth = 0; 
