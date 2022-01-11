@@ -8,7 +8,7 @@ public class Enemy extends Character
       this.strName = name;
       
       //calling super constructor and scaling enemy 
-      super();
+      super(10*3*round);
       
       
    }
