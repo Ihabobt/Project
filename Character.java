@@ -1,32 +1,37 @@
 import java.util.Random;
 public class Character
 {
-  private short shrCurrentHealth = 0;
-  private short shrMaxHealth = 0;
+   short shrCurrentHealth = 0;
+   short shrMaxHealth = 0;
   private byte bytArmor = 0;
   private byte bytAccuracy = 0;
   private byte bytRandomDamage;
   private byte bytDamageBonus = 2;
   private byte bytDamageDie = 0;
-  Random dice = new Random ();
-bytRandomDamage = ((1 + dice.nextInt (bytDamageDie)) + bytDamageBonus);
-
-    Character (byte armor, byte accuracy, byte DamageDie, byte DamageBonus);
-    byte armor = this.bytArmor;
-    byte accuracy = this.bytAccuracy;
-    byte RandomDamage = this.bytRandomDamage;
-    byte DamageBonus = this.bytDamageBonus;
+  private String strName;
+  
+  
+  
     
+
+    Character (String name, byte armor, byte accuracy, byte RandomDamage, byte DamageBonus)
+    {
+     armor = this.bytArmor;
+     accuracy = this.bytAccuracy;
+     RandomDamage = this.bytRandomDamage;
+     DamageBonus = this.bytDamageBonus;
+     name = this.strName;
+    }
     Character (){
     byte armor = 0;
     byte accuracy = 0;
     byte RandomDamge = 0;
     byte DamageBonus = 0 ;
-}
+    }
    public void changeHealth (short change) {
     shrCurrentHealth = shrCurrentHealth + change;
     
-    if (shCurrnetHealth > shrMaxHealth) 
+    if (shrCurrnetHealth > shrMaxHealth) 
     {
         shrCurrentHealth = shrMaxHealth;
     }else if ( shrCurrentHealth < 0 )
@@ -38,8 +43,9 @@ bytRandomDamage = ((1 + dice.nextInt (bytDamageDie)) + bytDamageBonus);
  }
  
  public byte attack(byte targetArmor) {
-    
-    if (targetArmor> (bytAccuracy + (dice.nextInt(20) + 1) )) { 
+     Random dice = new Random ();
+bytRandomDamage = (byte)((1 + dice.nextByte(bytDamageDie)) + bytDamageBonus);
+    if (targetArmor> (bytAccuracy + (byte)(dice.nextByte(20) + 1) )) { 
     
         return 0;
     } else   {
@@ -50,8 +56,16 @@ bytRandomDamage = ((1 + dice.nextInt (bytDamageDie)) + bytDamageBonus);
     
     public byte getArmor()  //getters methods
     {
-        return armor;
+        return bytArmor;
+    }
+    
+    public String getname()  //getters methods
+    {
+        return strName;
     }
  
  }
+ 
+ 
+ 
  
