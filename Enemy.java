@@ -5,7 +5,7 @@ public class Enemy extends Character
   Enemy(byte round, String name)
     {
       //calling super constructor and scaling enemy 
-      super(10+(3*round), );
+      super(10+(3*round), 10+(3*round), 10+(3*round), 10+(3*round));
       
       
    }
