@@ -3,13 +3,13 @@
 import java.util.Random;
 public class Character
 {
-    private short shrCurrentHealth = 0;
-    private short shrMaxHealth = 0;
-    private byte bytArmor = 0;
-    private byte bytAccuracy = 0;
+    private short shrCurrentHealth;
+    private short shrMaxHealth;
+    private byte bytArmor;
+    private byte bytAccuracy;
     private byte bytRandomDamage;
-    private byte bytDamageBonus = 2;
-    private byte bytDamageDie = 0;
+    private byte bytDamageBonus;
+    private byte bytDamageDie;
     private String strName;
 
 
@@ -24,6 +24,7 @@ public class Character
         this.bytDamageBonus = DamageBonus;
         this.strName = name;
         this.shrCurrentHealth = health;
+        this.shrMaxHealth = health;
 
     }
     Character ()
