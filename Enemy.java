@@ -1,14 +1,16 @@
 public class Enemy extends Character
 {
-  //declaring variable for the name
-  Private String strName;
-    //Constructor
-    Enemy(byte round, String name)
+  //Constructor
+  Enemy(byte round, String name)
     {
-      this.strName = name;
-      
+
       //calling super constructor and scaling enemy 
-      super(10*3*round);
+      super(name,
+      (byte) (10+(3*round)), //armor
+      (byte) (10+(3*round)), //accuracy
+      (byte) (10+(3*round)), //die
+       (byte) (10+(3*round)) //bonus
+       );
       
       
    }
