@@ -1,3 +1,5 @@
+
+   
 import java.util.Random;
 public class Character
 {
@@ -12,14 +14,18 @@ public class Character
 
 
 
-    Character (String name, byte armor, byte accuracy, byte DamageDie, byte DamageBonus)
+
+
+    Character (String name, byte armor, byte accuracy, byte DamageDie, byte DamageBonus, short health)
     {
         this.bytArmor = armor;
         this.bytAccuracy = accuracy;
         this.bytDamageDie = DamageDie;
         this.bytDamageBonus = DamageBonus;
         this.strName = name;
+        this.shrCurrentHealth = health;
     }
+        shrCurrentHealth = shrMaxHealth;
     Character ()
     {
         bytArmor = 0;
@@ -60,9 +66,10 @@ public class Character
   {
     return strName;
   }
-
-  public String toString()
+  
+  public short getHealth()
   {
-      return this.strName + "has" + this.shrCurrenthealth + "/" + this.shrMaxHealth;
+      return shrCurrentHealth;
   }
+
 }
