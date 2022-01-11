@@ -1,8 +1,10 @@
+
+   
 import java.util.Random;
 public class Character
 {
-    short shrCurrentHealth = 0;
-    short shrMaxHealth = 0;
+    private short shrCurrentHealth = 0;
+    private short shrMaxHealth = 0;
     private byte bytArmor = 0;
     private byte bytAccuracy = 0;
     private byte bytRandomDamage;
@@ -63,6 +65,11 @@ public class Character
   public String getName ()	//getters methods
   {
     return strName;
+  }
+  
+  public short getHealth()
+  {
+      return shrCurrentHealth;
   }
 
 }
