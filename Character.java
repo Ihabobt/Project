@@ -23,10 +23,10 @@ public class Character
      name = this.strName;
     }
     Character (){
-    byte armor = 0;
-    byte accuracy = 0;
-    byte RandomDamge = 0;
-    byte DamageBonus = 0 ;
+     armor = 0;
+     accuracy = 0;
+     RandomDamge = 0;
+     DamageBonus = 0 ;
     }
    public void changeHealth (short change) {
     shrCurrentHealth = shrCurrentHealth + change;
