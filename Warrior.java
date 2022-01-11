@@ -16,7 +16,7 @@ public class Warrior extends Character
           Random dice = new Random ();
           //generate a number from 1-8
           //add 2 
-          shrHealAmount = (3 + dice.nextInt(8);
+          shrHealAmount = (short)(3 + dice.nextInt(8));
           //use the changeHealth method to heal by the amount generated
           changeHealth(shrHealAmount);
      }
