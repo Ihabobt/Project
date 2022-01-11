@@ -63,6 +63,6 @@ public class Character
 
   public String toString()
   {
-      return "Character has" + this.shrCurrenthealth + "/" + this.shrMaxHealth;
+      return this.strName + "has" + this.shrCurrenthealth + "/" + this.shrMaxHealth;
   }
 }
