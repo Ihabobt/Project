@@ -12,8 +12,6 @@ public class Character
 
 
 
-
-
     Character (String name, byte armor, byte accuracy, byte DamageDie, byte DamageBonus)
     {
         this.bytArmor = armor;
@@ -63,4 +61,8 @@ public class Character
     return strName;
   }
 
+  public String toString()
+  {
+      return "Character has" + this.shrCurrenthealth + "/" + this.shrMaxHealth;
+  }
 }
