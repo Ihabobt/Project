@@ -1,64 +1,54 @@
 import java.util.Random;
 public class Character
 {
-  short shrCurrentHealth = 0;
-  short shrMaxHealth = 0;
-  private byte bytArmor = 0;
-  private byte bytAccuracy = 0;
-  private byte bytRandomDamage;
-  private byte bytDamageBonus = 2;
-  private byte bytDamageDie = 0;
-  private String strName;
+    private short shrCurrentHealth = 0;
+    private short shrMaxHealth = 0;
+    private byte bytArmor = 0;
+    private byte bytAccuracy = 0;
+    private byte bytRandomDamage;
+    private byte bytDamageBonus = 2;
+    private byte bytDamageDie = 0;
+    private String strName;
 
 
 
 
 
-    Character (String name, byte armor, byte accuracy, byte DamageDie,
-	       byte DamageBonus)
-  {
-    this.bytArmor = armor;
-    this.bytAccuracy = accuracy;
-    this.bytDamageDie = DamageDie;
-    this.bytDamageBonus = DamageBonus;
-    this.strName = name;
-  }
-  Character ()
-  {
-    bytArmor = 0;
-    bytAccuracy = 0;
-    bytDamageDie = 0;
-    bytDamageBonus = 0;
-  }
-  public void changeHealth (short change)
-  {
-    shrCurrentHealth = shrCurrentHealth + change;
+    Character (String name, byte armor, byte accuracy, byte DamageDie, byte DamageBonus)
+    {
+        this.bytArmor = armor;
+        this.bytAccuracy = accuracy;
+        this.bytDamageDie = DamageDie;
+        this.bytDamageBonus = DamageBonus;
+        this.strName = name;
+    }
+    Character ()
+    {
+        bytArmor = 0;
+        bytAccuracy = 0;
+        bytDamageDie = 0;
+        bytDamageBonus = 0;
+    }
+    public void changeHealth (short change)
+    {
+        shrCurrentHealth = (short) (shrCurrentHealth + change);
 
-    if (shrCurrnetHealth > shrMaxHealth)
-      {
-	shrCurrentHealth = shrMaxHealth;
-      }
-    else if (shrCurrentHealth < 0)
-      {
-	shrCurrentHealth = 0;
+        if (shrCurrentHealth > shrMaxHealth)
+        {
+        shrCurrentHealth = shrMaxHealth;
+        }
 
-      }
-
-  }
+    }
 
   public byte attack (byte targetArmor)
   {
     Random dice = new Random ();
-    bytRandomDamage = (byte) ((1 + dice.nextByte (bytDamageDie)) + bytDamageBonus);
-    if (targetArmor > (bytAccuracy + (byte) (dice.nextByte (20) + 1)))
-      {
-
-	return 0;
-      }
-    else
-      {
-
-      }
+    
+    if (targetArmor > (bytAccuracy + (byte) (dice.nextInt (20) + 1)))
+    {
+	    return 0;
+    }
+    bytRandomDamage = (byte) ((1 + dice.nextInt (bytDamageDie)) + bytDamageBonus);
     return bytRandomDamage;
   }
 
@@ -68,7 +58,7 @@ public class Character
     return bytArmor;
   }
 
-  public String getname ()	//getters methods
+  public String getName ()	//getters methods
   {
     return strName;
   }
