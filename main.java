@@ -1,56 +1,29 @@
+/**
+ * Description: This program runs a game, in which the player has to fight against endless waves of monsters 
+ * 
+ * Written by: Saili and Licheng
+ * 
+ */
 
 //import java.util Classes
 import java.util.Scanner;
 import java.util.ArrayList;
 
-/**
- * menu options
- * 
- * main menu
- * - play
- * - exit
- * - help
- * 
- * help menu
- * - info
- * 
- * exit menu
- * - quit
- * 
- * play:
- * 
- * - pick character
- * 
- * - wave starts (enemy comes)
- * - player picks attack
- * - player picks target
- * - round result??
- * 
- * - repeat?
- * 
- * - wave starts again
- * 
- * - repeat until player dead
- * 
- * 
- **/
-
 public class main {
+    // (Written by Licheng, mostly)
     public static void main(String[] args) {
         // clean the screen every time code runs
         System.out.println("\u000C");
 
         // declare variables which will be used later on
-        String strCharacter = "";
         String strUserName;
-        Character player;
-        int intWaveCount = 1;
 
         // declare and initialize the option variable to choose for menu
         int intOption = 0;
 
         // starts the game with the user prompt
         // also gets user's name
+        // STARTS THE WHOLE GAME.
         strUserName = startGame();
 
         while (true) {
@@ -61,27 +34,12 @@ public class main {
             intOption = optionCheck(intOption);
 
             if (intOption == 1) {
-                // ask the user what class they want to play
-                System.out.println("Which character would you like to choose?");
-                System.out.println("(Warrior) or (Mage)");
-                System.out.println("Warrior class allows you to have 16 armor and 60 health. Your special ability heals you.");
-                System.out.println("Mage allows you to have 14 armor and 45 health. Mages do more damage. \nYour special ability deals less damage than your normal attack, but cannot miss.");
-                System.out.println();
-
-                // verify user input
-                strCharacter = characterOption();
-
-                // create the actual player character
-                if (strCharacter.equalsIgnoreCase("warrior")) {
-                    player = new Warrior(strUserName);
-                } else {
-                    player = new Mage(strUserName);
-                }
-
-                // loop the game with a method
-                while (wave(player, intWaveCount)) {
-                    intWaveCount++;
-                }
+                // loop so the user can select to play again and won't have to re-enter name
+                do {
+                    // call the game method
+                    game(strUserName);
+                } while (continueGame());
+                break;
 
             } else if (intOption == 2) {
                 System.out.println("Thanks for playing the game! Hope to see you next time!");
@@ -89,17 +47,53 @@ public class main {
             } else if (intOption == 3) {
                 // calls the info method
                 info();
+            } else {
+                System.out.println("Invalid input!");
             }
         }
     }
 
-    // Method that runs each wave
+    // Method that runs the entire game starting from the character selection
+    // (Written by Saili)
+    public static void game(String strUserName) {
+        // variable for the wave count
+        int intWaveCount = 1;
+        // variable for character choice
+        String strCharacter;
+        // player character
+        Character player;
+
+        // ask the user what class they want to play
+        System.out.println("Which character would you like to choose?");
+        System.out.println("(Warrior) or (Mage)");
+        System.out.println("Warrior class allows you to have 16 armor and 60 health. Your special ability heals you.");
+        System.out.println(
+                "Mage allows you to have 14 armor and 45 health. Mages do more damage. \nYour special ability deals less damage than your normal attack, but cannot miss.");
+        System.out.println();
+
+        // verify user input
+        strCharacter = characterOption();
+
+        // create the actual player character
+        if (strCharacter.equalsIgnoreCase("warrior")) {
+            player = new Warrior(strUserName);
+        } else {
+            player = new Mage(strUserName);
+        }
+
+        // loop the game with a method
+        while (wave(player, intWaveCount)) {
+            intWaveCount++;
+        }
+    }
+
+    // Method that runs each wave (written by Saili)
     public static boolean wave(Character player, int intWaveCount) {
         // arraylist for all the enemies in the wave
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        //variable to loop through combat rounds
+        // variable to loop through combat rounds
         int intContinue = 0;
-        
+
         // generate enemies depending on the wave count
         for (byte i = 0; i < (Math.floor(intWaveCount / 5) + 2); i++) {
             enemies.add(new Enemy((byte) intWaveCount, "Enemy " + (i + 1)));
@@ -111,12 +105,6 @@ public class main {
         // loop through each combat round
         // use a method that returns a 0 to continue, a 1 if the player dies, and a 2 if
         // all the enemies die
-        // - wave starts (enemy comes)
-        // - player picks attack
-        // - player picks target
-        // - round result??
-        // - repeat?
-
         // while enemy is alive and character is alive
         while (intContinue == 0) {
             intContinue = combatRound(player, enemies);
@@ -124,45 +112,50 @@ public class main {
                 return false;
             }
         }
-        //check if game over
+        // check if game over
         return true;
     }
 
-    //method that runs each round of combat. returns 0 if both sides are alive, 1 if player dies, and 2 if enemies die
+    // method that runs each round of combat. returns 0 if both sides are alive, 1
+    // if player dies, and 2 if enemies die (written by Saili)
     public static int combatRound(Character player, ArrayList<Enemy> enemies) {
-        //player attacks
+        // prints the battlefield
+        System.out.println("\nBattlefield:");
+        printBattlefield(player, enemies);
+        System.out.println();
+
+        // player attacks
         playerAttack(player, enemies);
 
         // check if all enemies dead
-        if (enemies.size()==0)
-        {
+        if (enemies.size() == 0) {
             return 2;
         }
-        //else is unnecessary because of return
+        // else is unnecessary because of return
 
-        //use a method to go through the enemy attacks
+        // use a method to go through the enemy attacks
         if (enemyAttack(player, enemies)) {
             return 1;
         }
 
-        //if neither party dies
+        // if neither party dies
         return 0;
     }
 
-    //Method that manages the player's attack
+    // Method that manages the player's attack (written by Saili)
     public static void playerAttack(Character player, ArrayList<Enemy> enemies) {
         int intAttackChoice, intTargetChoice;
         byte bytTargetArmor, bytDamage;
 
         // player picks attack
         System.out.println("Which attack would you like to choose?");
-        System.out.println("1. Normal Attack\n 2. Special Ability");
+        System.out.println("1. Normal Attack\n2. Special Ability");
 
         intAttackChoice = attackChoice();
 
         // if it's a warrior and they're using special, don't pick a target
         if (intAttackChoice == 2 && player instanceof Warrior) {
-            ((Warrior) player).special();
+            ((Warrior) player).heal();
         }
         // otherwise, pick a target
         else {
@@ -175,55 +168,55 @@ public class main {
                 bytDamage = ((Mage) player).special();
             }
             // player does damage to target
-            enemies.get(intTargetChoice).changeHealth((short)-bytDamage);
+            enemies.get(intTargetChoice).changeHealth((short) -bytDamage);
 
-            //output the message to the user that they hit/miss
+            // output the message to the user that they hit/miss
             printAttack(player.getName(), enemies.get(intTargetChoice).getName(), bytDamage);
-            
-            //check if the enemy attacked died
-            if (enemies.get(intTargetChoice).getHealth()<= 0) {
+
+            // check if the enemy attacked died
+            if (enemies.get(intTargetChoice).getHealth() <= 0) {
                 System.out.println(enemies.get(intTargetChoice).getName() + " was defeated!");
                 enemies.remove(intTargetChoice);
             }
         }
     }
 
-    // Method for the enemies' attacks that returns true if the player dies
+    // Method for the enemies' attacks that returns true if the player dies (written
+    // by Saili)
     public static boolean enemyAttack(Character player, ArrayList<Enemy> enemies) {
-        //variable to store player armor (to not have to make the calculations repeatedly)
+        // variable to store player armor (to not have to make the calculations
+        // repeatedly)
         byte bytArmor = player.getArmor();
-        //variable to store the damage of each attack
+        // variable to store the damage of each attack
         byte bytDamage;
 
-        //loop through the arraylist and make attacks
+        // loop through the arraylist and make attacks
         for (Enemy x : enemies) {
-            //make the attack
+            // make the attack
             bytDamage = x.attack(bytArmor);
-            //output damage
+            // output damage
             printAttack(x.getName(), player.getName(), bytDamage);
 
-            //damage the player
-            player.changeHealth((short)-bytDamage);
-            //check if the player is ded
-            if (player.getHealth()<=0)
-            {
+            // damage the player
+            player.changeHealth((short) -bytDamage);
+            // check if the player is ded
+            if (player.getHealth() <= 0) {
                 return true;
             }
         }
 
         return false;
     }
-    
-    //Method that asks the user which target they want to attack
+
+    // Method that asks the user which target they want to attack (written by Saili)
     public static int getTarget(ArrayList<Enemy> enemies) {
         boolean bolTryCatch = false;
         int targetChoice = 0;
 
         System.out.println("Enter the number beside the name of the enemy you want to attack.");
-        //loop through the array list and output
-        for (int i = 0; i < enemies.size(); i++)
-        {
-            System.out.println((i+1) + ": " + enemies.get(i).toString());
+        // loop through the array list and output
+        for (int i = 0; i < enemies.size(); i++) {
+            System.out.println((i + 1) + ": " + enemies.get(i).toString());
         }
         do {
             try {
@@ -242,21 +235,22 @@ public class main {
             }
         } while (bolTryCatch);
 
-        return targetChoice-1;
+        return targetChoice - 1;
     }
 
-    // Method to output the information about the game
+    // Method to output the information about the game (written by Licheng)
     public static void info() {
         System.out.println(
                 "How the game works: As your character, you will enter the 1st round where you will encounter a group of monsters.");
-        System.out.println("You will have the option to choose which attacks to use");
-        System.out.println("Your attacks will do damage, same with the monster's");
-        System.out.println("Once you have 0 health, you lose. Once the monster's have 0 health, they die.");
+        System.out.println("You will have the option to choose which attacks to use.");
+        System.out.println("Your attacks will do damage, same with the monsters'.");
+        System.out.println("Once you have 0 health, you lose. Once the monsters have 0 health, they die.");
         System.out.println(
-                "If all the monster's die, you move on to the next wave. Each wave will get harder. Try to survive as many waves as possible!");
+                "If all the monsters die, you move on to the next wave. Each wave will get harder. Try to survive as many waves as possible!");
     }
 
-    // Method that figures out which attack the user wants to use
+    // Method that figures out which attack the user wants to use (written by
+    // Licheng)
     public static int attackChoice() {
         boolean bolTryCatch = false;
         int attack = 0;
@@ -281,7 +275,8 @@ public class main {
         return attack;
     }
 
-    // Method to check for users input when prompted the menu choice
+    // Method to check for users input when prompted the menu choice (written by
+    // Licheng)
     public static int optionCheck(int menuCheck) {
         boolean bolTryCatch = false;
 
@@ -306,7 +301,7 @@ public class main {
         return menuCheck;
     }
 
-    // Method to check which character user inputs
+    // Method to check which character user inputs (written by Licheng)
     public static String characterOption() {
         boolean bolTryCatch = false;
         String check;
@@ -326,13 +321,20 @@ public class main {
         return check;
     }
 
-    // Method that ends the game
+    // Method that ends the game (written by Licheng)
     public static void endGame(int intWaveCounter) {
+        String strPlayAgain;
         System.out.println("YOU LOST!!!");
-        System.out.println("You lasted: " + intWaveCounter + "amount of waves");
+        System.out.println("You lasted: " + intWaveCounter + "waves!");
+
+        System.out.println("Would you like to play again?");
+        strPlayAgain = new Scanner(System.in).nextLine();
+        if (strPlayAgain.equalsIgnoreCase("yes")) {
+            startGame();
+        }
     }
 
-    // Method that starts the game
+    // Method that starts the game (written by Licheng)
     public static String startGame() {
         String strUserName;
 
@@ -341,11 +343,12 @@ public class main {
         System.out.println("Please choose your name");
 
         strUserName = new Scanner(System.in).nextLine();
+
         return strUserName;
 
     }
 
-    // Method to output attacks
+    // Method to output attacks (written by Saili)
     public static void printAttack(String strAttacker, String strTarget, byte bytDamage) {
         if (bytDamage <= 0) {
             System.out.println(strAttacker + " missed " + strTarget + "!");
@@ -354,4 +357,30 @@ public class main {
         }
     }
 
+    // Method to continue the game (written by Licheng)
+    public static boolean continueGame() {
+        String strContinueGame;
+
+        System.out.println("Would you like to continue the game? If so, please type 'yes'. ");
+        strContinueGame = new Scanner(System.in).nextLine();
+        if (strContinueGame.equalsIgnoreCase("yes")) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // Method to print the description of the battlefield, which includes the player
+    // and the enemies (written by Licheng)
+    public static void printBattlefield(Character player, ArrayList<Enemy> enemies) {
+        System.out.println(player);
+
+        System.out.println();
+        System.out.println("ENEMIES");
+        for (Enemy y : enemies) {
+
+            System.out.println(y);
+        }
+    }
 }
