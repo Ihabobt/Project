@@ -39,7 +39,6 @@ public class main {
                     // call the game method
                     game(strUserName);
                 } while (continueGame());
-                break;
 
             } else if (intOption == 2) {
                 System.out.println("Thanks for playing the game! Hope to see you next time!");
@@ -85,6 +84,7 @@ public class main {
         while (wave(player, intWaveCount)) {
             intWaveCount++;
         }
+        endGame(intWaveCount);
     }
 
     // Method that runs each wave (written by Saili)
